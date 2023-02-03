@@ -4,6 +4,8 @@ import Select from "./Select";
 import { useNavigate } from "react-router-dom";
 
 function LogInForm() {
+  const [handleUpdate, setHandleUpdate] = useState(true);
+
   const navigate = useNavigate();
   let accountInitialValues = {
     login: {
@@ -54,19 +56,21 @@ function LogInForm() {
       phone: "",
       password: "",
     });
+
+    setHandleUpdate(!handleUpdate);
   };
 
+  const [len, setlength] = useState(storeData?.length);
   useEffect(() => {
     addStorage();
-  }, [storeData?.length]);
+  }, [handleUpdate, len]);
 
   //   handlelocalStorage
   const addStorage = () => {
-    if (storeData.length) {
+    if (storeData.length !== 0) {
       localStorage.setItem(`userdata`, JSON.stringify(storeData));
     }
   };
-
   //   select options
   const options = [
     { label: "Job", value: "Job" },
