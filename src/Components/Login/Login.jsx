@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function LogInForm() {
   const [handleUpdate, setHandleUpdate] = useState(true);
+  const [arr, setArr] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem("userdata", JSON.stringify(arr));
+  }, []);
 
   const navigate = useNavigate();
   let accountInitialValues = {
@@ -34,7 +39,8 @@ function LogInForm() {
     });
   };
 
-  const [storeData, setStoreData] = useState([]);
+  let allUser = JSON.parse(localStorage.getItem("userdata"));
+  const [storeData, setStoreData] = useState(allUser || []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,17 +66,17 @@ function LogInForm() {
     setHandleUpdate(!handleUpdate);
   };
 
-  const [len, setlength] = useState(storeData?.length);
   useEffect(() => {
     addStorage();
-  }, [handleUpdate, len]);
+  }, [handleUpdate, storeData?.length]);
 
   //   handlelocalStorage
   const addStorage = () => {
-    if (storeData.length !== 0) {
-      localStorage.setItem(`userdata`, JSON.stringify(storeData));
-    }
+    localStorage.setItem(`userdata`, JSON.stringify(storeData));
   };
+  // console.log("storeData?.length", storeData?.length);
+  // console.log("storeData", storeData);
+  // console.log("handleUpdate", handleUpdate);
   //   select options
   const options = [
     { label: "Job", value: "Job" },
